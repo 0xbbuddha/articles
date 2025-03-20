@@ -83,7 +83,7 @@ Next, you need to create a rules file in order to trigger Wazuh alerts. Otherwis
 `/var/ossec/etc/rules/crowdsec-rules.xml`
 ```xml
 <group name="crowdsec,">
-    <!-- Nous considérerons que toutes les alertes CrowdSec sont importantes. -->
+    <!-- We consider that all CrowdSec alerts are important. -->
     <rule id="100002" level="12">
         <decoded_as>json</decoded_as>
         <field name="crowdsec.program">crowdsec</field>
