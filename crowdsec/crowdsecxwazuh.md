@@ -52,7 +52,7 @@ decisions:
    duration: 4h
 #duration_expr: Sprintf('%dh', (GetDecisionsCount(Alert.GetValue()) + 1) * 4)
 notifications:
-    - wazuh # <- /etc/crowdsec/notifications/wazuh.yaml or /etc/crowdsec/notifications/file.yaml
+ - wazuh # <- /etc/crowdsec/notifications/wazuh.yaml or /etc/crowdsec/notifications/file.yaml
 #   - slack_default  # Set the webhook in /etc/crowdsec/notifications/slack.yaml before enabling this.
 #   - splunk_default # Set the splunk url and token in /etc/crowdsec/notifications/splunk.yaml before enabling this.
 #   - http_default   # Set the required http parameters in /etc/crowdsec/notifications/http.yaml before enabling this.
