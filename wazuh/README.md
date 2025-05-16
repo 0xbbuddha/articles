@@ -26,7 +26,7 @@ Dans cet article, nous allons vous montrer comment **automatiser la création de
 <h3>PRÉ-REQUIS</h3>
 
 - Serveur Wazuh (latest:[4.12.0](https://github.com/wazuh/wazuh/releases/tag/v4.12.0))
-- Serveur Tracecat (latest:[0.34.3](https://github.com/TracecatHQ/tracecat/releases/tag/0.34.3))
+- Serveur Tracecat (latest:[0.35.0](https://github.com/TracecatHQ/tracecat/releases/tag/0.35.0))
 
 <a name="INTÉGRER-WAZUH-À-TRACECAT"></a>
 &nbsp;
@@ -35,7 +35,7 @@ Dans cet article, nous allons vous montrer comment **automatiser la création de
 
 <h3>INTÉGRER WAZUH À TRACECAT</h3>
 
-Bien, commençons. Tout d'abord, nous avons besoin d'envoyer notre flux d'alertes à **Tracecat**. Nous allons donc passer par un **webhook**.
+Bien, commençons. Pour cela, nous devons d'abord envoyer notre flux d'alertes à **Tracecat**. Nous allons donc passer par un **webhook**.
 
 &nbsp;
 
@@ -139,7 +139,7 @@ value: ${{ TRIGGER.data.rule.groups }}
 ```
 ![](https://www.aukfood.fr/wp-content/uploads/2025/05/stockgroup.png)
 
-Maintenant que le groupe est stocké, je souhaite également stocker l'**@IP** de l'attaquant. Cela me permettra de la récupérer plus facilement plus tard dans les différents nœuds d'action.
+À ce stade, le groupe est stocké. Nous allons donc également stocker l'**@IP** de l'attaquant.. Cela me permettra de la récupérer plus facilement plus tard dans les différents nœuds d'action.
 
 &nbsp;
 
@@ -174,7 +174,7 @@ ip_address: ${{ ACTIONS.stock_ip.result }}
 
 &nbsp;
 
-Super, nous allons maintenant pouvoir créer notre ticket.
+À présent, nous allons pouvoir créer notre ticket. C’est une étape essentielle, car elle permet de suivre efficacement chaque alerte.
 
 <h5>Création ticket</h5>
 
@@ -250,7 +250,7 @@ On peut maintenant observer que tout fonctionne bien : j'ai bien reçu l'attribu
 
 <h5>Commentaires</h5>
 
-Bon, tout ça, c'est très bien, mais comment savoir ce que contient une alerte ? Actuellement, nous avons un ticket avec un niveau de priorité et de sécurité, ainsi qu'une description qui nous donne le nom de l'alerte. Cependant, s'il n'y a pas plus d'informations, cela devient un peu plus compliqué de traiter le ticket.
+Cela étant dit, comment savoir ce que contient une alerte ? Actuellement, nous avons un ticket avec un niveau de priorité et de sécurité, ainsi qu'une description qui nous donne le nom de l'alerte. Cependant, s'il n'y a pas plus d'informations, cela devient un peu plus compliqué de traiter le ticket.
 
 On va donc rajouter un commentaire tout simple qui va nous donner quelques informations en plus.
 
