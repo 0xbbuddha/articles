@@ -16,7 +16,7 @@ Dans cet article, nous allons vous montrer comment **automatiser la création de
 
 - [Automatiser le ticketing](#AUTOMATISER-LE-TICKETING)
 
-- [Automatiser le ticketing](#POUR-FINIR)
+- [Pour finir](#POUR-FINIR)
 
 <a name="PRÉ-REQUIS"></a>
 &nbsp;
