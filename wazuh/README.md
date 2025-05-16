@@ -134,7 +134,7 @@ Dans cet article, je vais principalement traiter les alertes du groupe **crowdse
 
 Commençons donc par mettre en place notre nœud `reshape` avec comme input :
 
-```xml
+```yaml
 value: ${{ TRIGGER.data.rule.groups }}
 ```
 ![](https://www.aukfood.fr/wp-content/uploads/2025/05/stockgroup.png)
@@ -145,7 +145,7 @@ Maintenant que le groupe est stocké, je souhaite également stocker l'**@IP** d
 
 Nous refaisons donc un `reshape` :
 
-```xml
+```yaml
 value: ${{ TRIGGER.data.data.crowdsec.alert.source.ip }}
 ```
 
@@ -167,7 +167,7 @@ Une fois l'**@IP** stockée, je souhaite récupérer toutes les informations la 
 
 J'en profite également pour vous informer que **Wazuh** a sorti son propre [**CTI**](https://cti.wazuh.com/vulnerabilities/cves) dans la version **4.12.0**.
 
-```xml
+```yaml
 ip_address: ${{ ACTIONS.stock_ip.result }}
 ```
 ![](https://www.aukfood.fr/wp-content/uploads/2025/05/lookupipaddress.png)
@@ -180,7 +180,7 @@ Super, nous allons maintenant pouvoir créer notre ticket.
 
 Pour ce faire, rien de plus simple : ajoutez `create_case` à la suite de `lookup_ip_address` et renseignez les informations suivantes en **input** :
 
-```xml
+```yaml
 summary: ${{ TRIGGER.data.agent.name }}
 description: ${{ TRIGGER.data.data.crowdsec.alert.scenario }}
 status: new
@@ -195,15 +195,15 @@ Par défaut, je définis en "unknown".
 
 Également, je crée trois `reshape` : l'un pour récupérer l'état de réputation de l'@ip attaquante, un autre pour le niveau d'alerte et le dernier pour stocker le `case_id` de mon ticket.
 
-```xml
+```yaml
 value: ${{ ACTIONS.lookup_ip_address.result.data.reputation }}
 ```
 
-```xml
+```yaml
 value: ${{ TRIGGER.data.rule.level }}
 ```
 
-```xml
+```yaml
 value: ${{ ACTIONS.create_case.result.id }}
 ```
 
@@ -226,7 +226,7 @@ Et si nous automatisions encore plus ? Par exemple, nous allons ajouter un moyen
 Pour s'y faire, on va se servir des éléments stockés un peu plus haut. La réputation de l'@IP attaquante va définir le niveau de priorité et le niveau de l'alerte défini le niveau de sévérité.
 
 `update_case`:
-```xml
+```yaml
 case_id: ${{ ACTIONS.recup_case_id.result }}
 priority: "${{ FN.lookup({ 'malicious': 'critical', 'suspicious': 'high', 'known': 'medium', 'unknown': 'low' }, ACTIONS.stock_reputation.result) if ACTIONS.stock_reputation.result in ['malicious', 'suspicious', 'known', 'unknown'] else 'unknown' }}"
 severity:
@@ -237,19 +237,54 @@ severity:
     else "medium" if ACTIONS.stock_level.result >= 4
     else "low"
   }}
-  ```
+```
 ![](https://www.aukfood.fr/wp-content/uploads/2025/05/defineseveritypriority.png)
-
-&nbsp;
 
 Nous pouvons maintenant vérifier dans le *Case Management* de Tracecat si tout fonctionne correctement.
 
-
 ![](https://www.aukfood.fr/wp-content/uploads/2025/05/casemanagement-1024x888.png)
+
+On peut maintenant observer que tout fonctionne bien : j'ai bien reçu l'attribution du niveau de priorité et de sévérité.
 
 &nbsp;
 
-On peut maintenant observer que tout fonctionne bien : j'ai bien reçu l'attribution du niveau de priorité et de sévérité.
+<h5>Commentaires</h5>
+
+Bon, tout ça, c'est très bien, mais comment savoir ce que contient une alerte ? Actuellement, nous avons un ticket avec un niveau de priorité et de sécurité, ainsi qu'une description qui nous donne le nom de l'alerte. Cependant, s'il n'y a pas plus d'informations, cela devient un peu plus compliqué de traiter le ticket.
+
+On va donc rajouter un commentaire tout simple qui va nous donner quelques informations en plus.
+
+Dans mes alertes, j'ai plus d'informations concernant l'attaque dans la partie `events[*].meta`.  
+Alors, on va faire en sorte de les lire et de les rajouter en commentaire dans notre ticket.
+
+Pour cela, on va avoir besoin de deux choses :
+un nœud `map` et un nœud `create_comment`.
+
+`map` :
+```yaml
+items: ${{ TRIGGER.data.data.crowdsec.alert.events[0].meta }}
+python_lambda: "lambda m: m['key'] + ': ' + m['value']"
+```
+
+Alors, quelques explications s’imposent sur ce nœud.
+
+Pour commencer, la ligne `items: ${{ TRIGGER.data.data.crowdsec.alert.events[0].meta }}` nous permet d'extraire notre liste d'éléments.
+
+Ensuite, la ligne `python_lambda: "lambda m: m['key'] + ': ' + m['value']"` indique une fonction lambda qui va être appliquée à chaque élément de la liste.  
+Elle construit une chaîne de caractères combinant la clé (`key`) et la valeur (`value`) de chaque élément.
+
+Puis, il ne nous reste plus qu’à ajouter le commentaire dans `create_comment`.
+
+```yaml
+case_id: ${{ ACTIONS.recup_case_id.result }}
+content: ${{ FN.join(ACTIONS.map.result, '\n- ') }}
+```
+
+![](https://www.aukfood.fr/wp-content/uploads/2025/05/commentcase.png)
+
+On peut ensuite constater que nous récupérons bien le commentaire.
+
+![](https://www.aukfood.fr/wp-content/uploads/2025/05/affichecomment.png)
 
 <a name="POUR-FINIR"></a>
 &nbsp;
@@ -262,7 +297,7 @@ Nous avons vu dans cet article comment créer un workflow pour automatiser la cr
 Cette intégration facilite la gestion des alertes ainsi que leur visibilité.
 
 Nous vous avons montré un exemple, mais c’est à vous de l’adapter en fonction de vos alertes.  
-N’hésitez pas à ajouter des conditions : vous pouvez en cumuler plusieurs afin de mieux cibler les alertes. Également, je n'ai pas ajouté de commentaire dans le ticket, mais c'est quelque chose qui peut être très important pour éviter de perdre certaines informations concernant une alerte.
+N’hésitez pas à ajouter des conditions : vous pouvez en cumuler plusieurs afin de mieux cibler les alertes.
 
 Si vous souhaitez découvrir à la fois Tracecat et Wazuh, voici leurs sites :
 - Wazuh : https://wazuh.com
