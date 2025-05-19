@@ -263,7 +263,7 @@ un nœud `map` et un nœud `create_comment`.
 `map` :
 ```yaml
 items: ${{ TRIGGER.data.data.crowdsec.alert.events[0].meta }}
-python_lambda: "lambda m: m['key'] + ': ' + m['value']"
+python_lambda: "lambda m: '- ' m['key'] + ': ' + m['value']"
 ```
 
 Alors, quelques explications s’imposent sur ce nœud.
@@ -277,14 +277,14 @@ Puis, il ne nous reste plus qu’à ajouter le commentaire dans `create_comment`
 
 ```yaml
 case_id: ${{ ACTIONS.recup_case_id.result }}
-content: ${{ FN.join(ACTIONS.map.result, '\n- ') }}
+content: ${{ FN.join(ACTIONS.map.result, '\n') }}
 ```
 
 ![](https://www.aukfood.fr/wp-content/uploads/2025/05/commentcase.png)
 
 On peut ensuite constater que nous récupérons bien le commentaire.
 
-![](https://www.aukfood.fr/wp-content/uploads/2025/05/affichecomment.png)
+![](https://www.aukfood.fr/wp-content/uploads/2025/05/affichemeta.png)
 
 <a name="POUR-FINIR"></a>
 &nbsp;
