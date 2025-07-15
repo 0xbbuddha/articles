@@ -1,17 +1,21 @@
-<!-- Wazuh CTI : Une nouvelle ère pour la Threat Intelligence -->
-
-<h1>Wazuh CTI : Une nouvelle ère pour la Threat Intelligence</h1>
-
 <div style="text-align:center;">
-  <img src="./assets/cti_logo.png" alt="Logo Wazuh CTI" width="120"/>
+  <img src="https://www.aukfood.fr/wp-content/uploads/2025/07/cti_logo.png" alt="Logo Wazuh CTI" width="120"/>
 </div>
 
-<p>Wazuh, déjà reconnu pour ses solutions de sécurité open source, franchit une nouvelle étape avec l’introduction de son service Cyber Threat Intelligence (CTI). Cette plateforme vise à fournir aux organisations des informations actualisées, fiables et exploitables sur les menaces et vulnérabilités émergentes.</p>
+<p>
+Marre de courir après les infos sur les failles, de jongler entre mille sources obscures ou de tomber sur des bases de vulnérabilités payantes ? <strong>Wazuh CTI</strong> débarque pour changer la donne : une plateforme ouverte, pensée par et pour les passionnés de cybersécurité, où la chasse aux menaces devient (presque) fun.
+</p>
+<p>
+Ici, pas de blabla marketing ni de jargon fumeux : tu veux savoir si un paquet est vulnérable, comprendre le score CVSS, ou trouver une parade rapide ? Tout est là, centralisé, enrichi, et accessible en quelques clics. Que tu sois admin, analyste SOC, ou simple bidouilleur curieux, Wazuh CTI te donne les moyens de garder une longueur d’avance sur les cyber-méchants.
+</p>
+<p>
+Bref, c’est l’outil qu’on aurait tous aimé avoir sous la main pour sécuriser nos serveurs… et dormir un peu plus tranquille la nuit !
+</p>
 
 <hr/>
 
 <div style="text-align:center;">
-  <img src="./assets/cve_example.png" alt="Exemple d’alerte CVE sur Wazuh CTI" width="80%"/>
+  <img src="https://www.aukfood.fr/wp-content/uploads/2025/07/cve_example-1024x382.png" alt="Exemple d’alerte CVE sur Wazuh CTI" width="80%"/>
   <p style="font-size:0.95em; color:#555;"><em>Exemple d’affichage d’une vulnérabilité (CVE) sur la plateforme Wazuh CTI</em></p>
 </div>
 
@@ -43,9 +47,6 @@
   <li><strong>Depuis le tableau de bord Wazuh</strong> : À partir de la version 4.12, il est possible d’accéder directement au CTI depuis les alertes de vulnérabilité. Un simple clic sur l’identifiant d’une vulnérabilité ouvre la fiche détaillée sur le site CTI.</li>
 </ul>
 
-<h2>Perspectives d’évolution</h2>
-<p>Wazuh prévoit d’étendre prochainement son service CTI (notamment avec la version 5.0) pour couvrir d’autres domaines de la threat intelligence, comme les indicateurs de compromission (IOC) : adresses IP, hachages de fichiers, URLs, etc. À terme, les règles de détection Wazuh seront également directement alimentées par la plateforme CTI.</p>
-
 <h2>Conclusion</h2>
 <p>Avec CTI, Wazuh propose un service global, accessible et fiable pour renforcer la détection et la réponse face aux menaces. Cette nouvelle fonctionnalité s’inscrit dans une démarche d’amélioration continue de la sécurité, en offrant aux utilisateurs des outils toujours plus performants pour anticiper et contrer les cyberattaques.</p>
-<p>Pour en savoir plus : <a href="https://wazuh.com/blog/introducing-wazuh-cti/" target="_blank">https://wazuh.com/blog/introducing-wazuh-cti/</a></p> 
+<p>Pour en savoir plus : <a href="https://wazuh.com/blog/introducing-wazuh-cti" target="_blank">https://wazuh.com/blog/introducing-wazuh-cti</a></p> 
