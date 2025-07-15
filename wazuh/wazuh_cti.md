@@ -1,5 +1,5 @@
 <div style="text-align:center;">
-  <img src="https://www.aukfood.fr/wp-content/uploads/2025/07/cti_logo.png" alt="Logo Wazuh CTI" width="120"/>
+  <img src="https://www.aukfood.fr/wp-content/uploads/2025/07/cti.png" alt="Logo Wazuh CTI" width="120"/>
 </div>
 
 <p>
