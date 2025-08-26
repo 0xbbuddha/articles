@@ -1,15 +1,17 @@
+<h1>Wazuh CTI : Quand la Threat Intelligence passe en mode open source</h1>
+
 <div style="text-align:center;">
   <img src="./assets/cti.png" alt="Logo Wazuh CTI" width="120"/>
 </div>
 
 <p>
-Marre de courir après les infos sur les failles, de jongler entre mille sources obscures ou de tomber sur des bases de vulnérabilités payantes ? <strong>Wazuh CTI</strong> débarque pour changer la donne : une plateforme ouverte, pensée par et pour les passionnés de cybersécurité, où la chasse aux menaces devient (presque) fun.
+Tu en as assez de chercher des infos sur les failles ? Tu passes ton temps à jongler entre des sources obscures ou à tomber sur des bases de vulnérabilités payantes ? Bonne nouvelle : <strong>Wazuh CTI</strong> change la donne. Cette plateforme ouverte s’adresse à tous les passionnés de cybersécurité. Elle rend la chasse aux menaces plus simple, plus rapide, et même un peu fun.
 </p>
 <p>
-Ici, pas de blabla marketing ni de jargon fumeux : tu veux savoir si un paquet est vulnérable, comprendre le score CVSS, ou trouver une parade rapide ? Tout est là, centralisé, enrichi, et accessible en quelques clics. Que tu sois admin, analyste SOC, ou simple bidouilleur curieux, Wazuh CTI te donne les moyens de garder une longueur d’avance sur les cyber-méchants.
+Ici, tu ne trouveras pas de jargon inutile. Tu veux savoir si un paquet est vulnérable ? Comprendre un score CVSS ? Trouver une parade efficace ? Tout est là. Les informations sont centralisées, enrichies et accessibles en quelques clics. Que tu sois admin, analyste SOC ou simple bidouilleur, Wazuh CTI t’aide à garder une longueur d’avance sur les cyber-méchants.
 </p>
 <p>
-Bref, c’est l’outil qu’on aurait tous aimé avoir sous la main pour sécuriser nos serveurs… et dormir un peu plus tranquille la nuit !
+En résumé, c’est l’outil idéal pour sécuriser tes serveurs. Grâce à lui, tu peux enfin dormir un peu plus tranquille la nuit.
 </p>
 
 <hr/>
@@ -17,6 +19,10 @@ Bref, c’est l’outil qu’on aurait tous aimé avoir sous la main pour sécur
 <div style="text-align:center;">
   <img src="https://www.aukfood.fr/wp-content/uploads/2025/07/cve_example-1024x382.png" alt="Exemple d’alerte CVE sur Wazuh CTI" width="80%"/>
   <p style="font-size:0.95em; color:#555;"><em>Exemple d’affichage d’une vulnérabilité (CVE) sur la plateforme Wazuh CTI</em></p>
+</div>
+<div style="text-align:center; margin-top: 1em;">
+  <img src="./assets/cvewazu.png" alt="Exemple d’intégration CVE Wazuh" width="80%"/>
+  <p style="font-size:0.95em; color:#555;"><em>Exemple d’intégration d’une alerte CVE dans le dashboard Wazuh</em></p>
 </div>
 
 <h2>Qu’est-ce que Wazuh CTI ?</h2>
