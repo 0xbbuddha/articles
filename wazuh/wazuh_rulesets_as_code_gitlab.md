@@ -4,7 +4,8 @@ Inspirée des principes de l’Infrastructure as Code (IaC), cette approche favo
 
 Dans ce nouvel article, nous allons explorer concrètement la mise en place de **Wazuh RaC** en utilisant un dépôt [Detection-Engineering as Code (DaC)](https://github.com/0xbbuddha/DaC-Wazuh-Gitlab-setup) dédié. L’objectif est d’automatiser tout le cycle de vie des règles personnalisées  de leur création jusqu’à leur déploiement en s’appuyant sur un pipeline CI/CD.
 
-Un grand merci à [SamsonIdowu](https://github.com/SamsonIdowu), à l’origine du dépôt DaC pour GitHub Actions, sur lequel nous nous sommes appuyés pour construire ce nouveau dépôt DaC adapté à GitLab CI/CD.
+Un grand merci à [SamsonIdowu](https://github.com/SamsonIdowu), à l’origine du dépôt DaC pour GitHub Actions, sur lequel nous nous sommes appuyés pour construire ce nouveau dépôt DaC adapté à GitLab CI/CD. 
+<br>
 
 ---
 
@@ -12,9 +13,9 @@ Un grand merci à [SamsonIdowu](https://github.com/SamsonIdowu), à l’origine 
 Comment ça fonctionne ?
 </h3>
 
-Découvrons ensemble comment fonctionne Wazuh RaC, depuis la définition des règles jusqu’à leur mise en production sur le serveur Wazuh.
+Découvrons ensemble comment fonctionne Wazuh RaC, depuis la définition des règles jusqu’à leur mise en production sur le serveur Wazuh.<br>
 
-![](https://www.aukfood.fr/wp-content/uploads/2025/08/RaC-Gitlab-1024x576.png)
+![](https://www.aukfood.fr/wp-content/uploads/2025/08/RaC-Gitlab-1024x576.png) <br>
 
 1. **Développement et tests en local** : Les ingénieurs en sécurité commencent par concevoir et ajuster les règles directement sur leur machine, en utilisant des outils de développement comme Visual Studio Code. Ils opèrent au sein des répertoires réservés aux règles personnalisées de Wazuh  :
 
@@ -24,10 +25,13 @@ Découvrons ensemble comment fonctionne Wazuh RaC, depuis la définition des rè
 	Un dépôt Git local permet de suivre et de gérer les modifications apportées à ces répertoires.
 
 	- [] Note: Nous configurons un fichier `.gitignore` pour exclure les fichiers et dossiers non essentiels dans le répertoire `/var/ossec/etc/`, afin de ne versionner que les ensembles de règles pertinents.
+<br>
 
 2. **Envoi vers la branche develop** : Une fois les règles testées localement, elles sont validées et transférées vers une branche develop du dépôt distant (GitLab). Cette branche sert de zone de développement collaborative, permettant à plusieurs ingénieurs en sécurité de travailler ensemble.
+<br>
 
 3. **Revue et fusion des modifications** : Les changements apportés à la branche develop font l’objet d’une relecture par les pairs. Une merge request (ou pull request) est créée pour intégrer les mises à jour de la branche dev vers la branche main. Ce processus permet de garantir la qualité du code, de faciliter la collaboration et d’assurer le suivi et l’audit des modifications.
+<br>
 
 4. **Fusion vers la branche main et déclenchement du pipeline CI/CD** : Une fois la merge request approuvée et intégrée dans la branche main, le pipeline CI/CD est automatiquement lancé. Le processus s’exécute selon l’ordre suivant :
 	- Se rend dans le répertoire `/var/ossec/etc/`, où sont stockés les ensembles de règles.
@@ -35,7 +39,10 @@ Découvrons ensemble comment fonctionne Wazuh RaC, depuis la définition des rè
 	- Met à jour le propriétaire et les permissions des fichiers en exécutant les commandes `chown wazuh:wazuh` et `chmod 660`
 	- Redémarre le service du gestionnaire Wazuh et affiche un message de *succès* si le redémarrage s’effectue correctement, ou un message d’*échec* en cas de problème..
 	- Pour faciliter le débogage, la commande `systemctl status wazuh-manager` est incluse afin de vérifier l’état du gestionnaire Wazuh une fois toutes les opérations terminées.
+<br>
+
 5. **Déploiement automatisé vers Wazuh** : Le runner synchronise automatiquement les fichiers de règles mis à jour avec le serveur Wazuh, garantissant que les règles les plus récentes et validées sont appliquées dès que le pipeline CI/CD se termine avec succès. Cette étape supprime toute intervention manuelle, réduit les risques d’erreurs et assure que les environnements Wazuh en production fonctionnent toujours avec des configurations vérifiées.
+<br>
 
 ---
 
@@ -47,16 +54,19 @@ Prérequis
 - Tout poste de travail disposant de l’IDE Visual Studio Code pour créer les ensembles de règles Wazuh.
 - Une connexion SSH pour pouvoir récupérer le dépôt distant en local et pousser les modifications.
 - Un compte GitLab
+<br>
 
 ---
 
 <h3>
 Configuration
 </h3>
+<br>
 
 <h4>
 SSH connexion
 </h4>
+
 Si ce n’est pas déjà fait, n’oubliez pas de créer votre clé SSH afin de pouvoir récupérer et pousser les modifications.
 
 ```bash
@@ -134,6 +144,7 @@ ssh -i ~/.ssh/id_ed25519 ${SSH_OPTS[*]} "${WAZUH_USER}@${WAZUH_HOST}" "$WAZUH_RE
 
 echo "==> Update completed"
 ```
+<br>
 
 - `.gitlab/ci/scripts/check_rule_ids.sh` : Ce fichier définit un workflow qui exécute automatiquement le script `check_rule_ids.py` afin de détecter d’éventuels conflits entre les identifiants de règles.
 
@@ -153,6 +164,7 @@ python -m pip install lxml >/dev/null 2>&1 || true
 
 python check_rule_ids.py
 ```
+<br>
 
 `.gitlab/ci/scripts/lint_xml.sh` : Ce fichier vérifie la bonne syntaxe des fichiers XML dans vos décodeurs et règles.
 ```bash
@@ -180,6 +192,7 @@ lint_dir "decoders"
 lint_dir "rules"
 exit $fail
 ```
+<br>
 
 - `check_rule_ids.py` : Ce script Python permet de détecter les conflits d’ID de règles en comparant les identifiants des règles ajoutées ou modifiées dans la branche develop avec ceux déjà présents dans la branche main.
 
@@ -448,8 +461,9 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+<br>
 
-- `.gitlab-ci` : Sans oublier ce fichier, qui permet d’exécuter le runner avec toutes les tâches que l’on souhaite.
+- `.gitlab-ci.yml` : Sans oublier ce fichier, qui permet d’exécuter le runner avec toutes les tâches que l’on souhaite.
 
 ```yml
 # GitLab CI pour Ruleset-as-Code
@@ -530,12 +544,14 @@ Nous pouvons maintenant effectuer les actions suivantes sur notre serveur Wazuh 
 ```bash
 cd /var/ossec/etc
 ```
+<br>
 
 2. Nous créons un fichier `.gitignore` dans ce répertoire afin d’exclure de Git tous les fichiers et dossiers qui ne concernent pas les répertoires `decoders/` et `rules/` :
 
 ```bash
 touch .gitignore
 ```
+<br>
 
 3. Nous ajoutons au fichier `.gitignore` les fichiers et dossiers à ignorer, ainsi que tout autre fichier ou dossier que nous souhaitons exclure de la gestion Git :
 
@@ -554,24 +570,28 @@ lists/
 rootcheck/
 shared/
 ```
+<br>
 
 4. Nous marquons le répertoire de travail comme sûr afin de pouvoir l’ajouter à Git :
 
 ```bash
 git config --global --add safe.directory /var/ossec/etc
 ```
+<br>
 
 5. Nous initialisons le répertoire de travail en tant que dépôt Git. Cette action crée un répertoire `.git` dans notre répertoire de travail :
 
 ```bash
 git init
 ```
+<br>
 
 6. Nous ajoutons notre dépôt Wazuh RaC comme origin dans Git local, afin de pouvoir envoyer nos modifications locales et récupérer les modifications distantes :
 
 ```bash
 git remote add origin https://<USERNAME><PERSONAL_ACCESS_TOKEN>@gitlab.com/<PATH>/<REPO_NAME>.git
 ```
+<br>
 
 7. Nous configurons notre identité Git, qui sera utilisée pour signer nos commits locaux :
 
@@ -579,12 +599,14 @@ git remote add origin https://<USERNAME><PERSONAL_ACCESS_TOKEN>@gitlab.com/<PATH
 git config --global user.name <VOTRE_NOM>
 git config --global user.email <VOTRE_ADRESSE_EMAIL>
 ```
+<br>
 
 8. Nous créons une nouvelle branche main et basculons dessus :
 
 ```bash
 git checkout -b main
 ```
+<br>
 
 9. Nous préparons les fichiers de règles et de décodeurs dans les répertoires `decoders/` et `rules/` pour le commit, puis nous effectuons un premier commit dans le dépôt Git local :
 
@@ -592,6 +614,7 @@ git checkout -b main
 git add .
 git commit -m "feat: initial commit"
 ```
+<br>
 
 10. Nous synchronisons les modifications de notre dépôt local avec la branche main du dépôt distant et nous les envoyons sur GitLab :
 
@@ -617,6 +640,7 @@ Création des variables CI/CD GitLab
 Pour sécuriser l’exécution des workflows d’automatisation sur GitLab, nous devons créer des variables CI/CD dans le dépôt distant.
 
 1. Dans votre dépôt GitLab, allez dans : `Settings > CI/CD > Variables`
+<br>
 
 2. Créez les variables suivantes :
 	- **WAZUH_USER** : Nom de l’utilisateur SSH utilisé par les pipelines pour se connecter au serveur Wazuh
@@ -638,12 +662,15 @@ Configuration de VSCode pour visualiser des ensembles de règles
 Pour consulter nos règles Wazuh depuis VSCode, nous procédons comme suit :
 
 1. Nous ouvrons VSCode, puis nous allons dans Extensions. Nous recherchons l’extension GitLab Workflows et nous l’installons.
+<br>
 
 2. Configurez votre token personnel en appuyant sur `Ctrl+Shift+P` et en recherchant `GitLab: Authenticate`.
+<br>
 
 3. Ouvrez votre dépôt en appuyant sur Ctrl+Shift+P et en recherchant GitLab: Open Remote Repository.
 
 - [] Note : Il n’est pas encore possible de créer ou de modifier les règles et decoders directement à l’aide de cette extension.
+<br>
 
 ---
 
@@ -663,19 +690,21 @@ Déploiement d'ensembles de règles/decodeurs sur le serveur Wazuh
 git switch develop
 git pull origin develop
 ```
+<br>
 
 2. Modifier les fichiers de règles
 ```bash
 # éditer rules/local_rules.xml
 ```
 Nous ajoutons ou modifions les règles dans le fichier approprié, par exemple local_rules.xml.
-
+<br>
 
 3. Préparer les modifications pour le commit
 
 ```bash
 git add .
 ```
+<br>
 
 4. Créer un commit local
 
@@ -683,25 +712,29 @@ git add .
 git commit -m "feat: règle XYZ"
 ```
 Nous enregistrons nos modifications avec un message de commit clair.
+<br>
 
-5.Envoyer les modifications sur le dépôt distant
+5. Envoyer les modifications sur le dépôt distant
 
 ```bash
 git push origin develop
 ```
 Nous mettons à jour la branche develop sur le serveur GitLab.
+<br>
 
 6. Ne pas oublier de paramétrer l’outil CLI `glab`
 
 ```bash
 glab auth login
 ```
+<br>
 
 7. Créer une Merge Request (MR) pour fusionner develop → main
 
 ```bash
 glab mr create --source-branch develop --target-branch main --title "Fusion develop → main : ajout règle XYZ" --description "MR pour intégrer la règle XYZ"
 ```
+<br>
 
 8. Vérifier l’état des pipelines CI/CD
 
@@ -729,6 +762,7 @@ Pour que le script fonctionne correctement, certaines variables doivent être co
 - **GITLAB_TOKEN** : un token d’accès personnel avec les droits nécessaires pour modifier les paramètres du projet.
 
 En configurant ces variables, vous pouvez lancer protect_main.sh et sécuriser automatiquement votre workflow GitLab, en vous assurant que seules des modifications validées et approuvées seront intégrées dans la branche principale. Cela réduit fortement le risque d’erreurs critiques tout en appliquant des bonnes pratiques de gouvernance du code.
+<br>
 
 ---
 
@@ -739,6 +773,7 @@ Conclusion
 Wazuh Ruleset as Code (RaC) représente une approche DevOps appliquée à la sécurité et à la création de règles et decodeurs de détection. En considérant les règles/decodeurs comme du code, les équipes de sécurité peuvent gérer, tester et déployer leurs logiques de détection avec la même rigueur et rapidité que les équipes de développement logiciel. Cette méthode favorise des mises à jour plus rapides, limite les erreurs en production et assure une meilleure cohérence des règles de détection des menaces.
 
 Enfin, c’est un immense plaisir pour nous, **Aukfood**, d’avoir mené à bien ce projet et de proposer une alternative à GitHub pour le RaC Wazuh, offrant ainsi une nouvelle façon de gérer et déployer les règles de sécurité de manière collaborative et sécurisée.
+<br>
 
 ---
 
