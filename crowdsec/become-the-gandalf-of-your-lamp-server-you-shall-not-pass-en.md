@@ -359,6 +359,7 @@ Captcha with the PHP bouncer
 curl -A "Nikto" "https://ourpenguinsite.com/"
 ```
 And now, we can see that if we trigger a rule that itself activates a CAPTCHA, we get the desired result. Useful when a legitimate person finds themselves blocked:
+
 ```bash
 ╭─────────┬──────────┬──────────────────┬───────────────────────────────────┬─────────┬─────────┬──────────────────────────────────┬────────┬────────────┬──────────╮
 │    ID   │  Source  │    Scope:Value   │               Reason              │  Action │ Country │                AS                │ Events │ expiration │ Alert ID │
