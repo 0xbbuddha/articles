@@ -186,7 +186,7 @@ cp scripts/settings.php.dist scripts/settings.php
 5. Setting up the API_KEY
 ```bash
 API_KEY=$(sudo cscli bouncers add standalone-bouncer -o raw) \
-&& sed -i "s/'api_key' => 'YOUR_BOUNCER_API_KEY'/'api_key' => '$API_KEY'/" scripts/settings.php \
+&& sed -i "s|'api_key' => 'YOUR_BOUNCER_API_KEY'|'api_key' => '$API_KEY'|" scripts/settings.php \
 && unset API_KEY
 ```
 
