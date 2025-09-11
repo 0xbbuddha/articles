@@ -355,11 +355,11 @@ We can now see that we triggered a specific rule present in AppSec, which corres
 <h4>
 Captcha with the PHP bouncer
 </h4>
+
 ```bash
 curl -A "Nikto" "https://ourpenguinsite.com/"
 ```
 And now, we can see that if we trigger a rule that itself activates a CAPTCHA, we get the desired result. Useful when a legitimate person finds themselves blocked:
-
 ```bash
 ╭─────────┬──────────┬──────────────────┬───────────────────────────────────┬─────────┬─────────┬──────────────────────────────────┬────────┬────────────┬──────────╮
 │    ID   │  Source  │    Scope:Value   │               Reason              │  Action │ Country │                AS                │ Events │ expiration │ Alert ID │
