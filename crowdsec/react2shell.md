@@ -1,3 +1,9 @@
+This is a translation of the original article published in French on [Aukfood's Blog](https://www.aukfood.fr/react2shell-plat-epice-react19-crowdsec-protection/).
+&nbsp;
+
+---
+
+&nbsp;
 On December 3rd, 2025, the React team disclosed CVE-2025-55182, dubbed React2Shell, a critical Remote Code Execution (RCE) vulnerability affecting React Server Components (RSC).
 With a CVSS score of 10.0 and an exploitation rate close to 100% on default configurations, this flaw represents a severe threat to modern infrastructures relying on React 19 and Next.js.
 
